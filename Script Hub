@@ -1,0 +1,176 @@
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+--Services
+local TweenService = game:GetService("TweenService")
+local Player = game.Players.LocalPlayer
+-- Create Window
+local Window = Rayfield:CreateWindow({
+    Name = "MOUSED Hub",
+    LoadingTitle = "MOUSED hub is loading",
+    LoadingSubtitle = "By Nonfakerr",
+    ConfigurationSaving = {
+        Enabled = false,
+        FolderName = "MOUSEDConfig",
+        FileName = "MOUSEDSetting"
+    }
+})
+-- Create Tab
+local MainTab = Window:CreateTab("Main", nil)
+local SettingsTab = Window:CreateTab("Settings", nil)
+--Auto Beat Obby Thingy
+local CurrentTween
+
+local TweenService = game:GetService("TweenService")
+local Player = game.Players.LocalPlayer
+
+local TweenEnabled = false
+local CurrentTween
+
+local function TweenTo(Position)
+    local Character = Player.Character or Player.CharacterAdded:Wait()
+    local HRP = Character:WaitForChild("HumanoidRootPart")
+
+    CurrentTween = TweenService:Create(
+        HRP,
+        TweenInfo.new(2, Enum.EasingStyle.Linear), -- Always 2 seconds
+        {CFrame = CFrame.new(Position)}
+    )
+
+    CurrentTween:Play()
+    CurrentTween.Completed:Wait()
+end
+--Main Tab
+local LoopEnabled = false
+
+MainTab:CreateToggle({
+    Name = "Auto Click (OP)",
+    CurrentValue = false,
+    Flag = "LoopToggle",
+    Callback = function(Value)
+        LoopEnabled = Value
+
+        if Value then
+            task.spawn(function()
+                while LoopEnabled do
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ClickAction"):FireServer()
+                    task.wait(0)
+                end
+            end)
+        end
+    end,
+})
+
+local LoopEnabled = false
+
+MainTab:CreateToggle({
+    Name = "Auto Upgarde (ClickMulti)",
+    CurrentValue = false,
+    Flag = "LoopToggle",
+    Callback = function(Value)
+        LoopEnabled = Value
+
+        if Value then
+            task.spawn(function()
+                while LoopEnabled do
+local args = {
+    [1] = "ClickMulti"
+}
+
+game:GetService("ReplicatedStorage").Remotes.PurchaseClickUpgrade:InvokeServer(unpack(args))
+                    task.wait(0)
+                end
+            end)
+        end
+    end,
+})
+
+local LoopEnabled = false
+
+MainTab:CreateToggle({
+    Name = "Auto Upgarde (AutoclickPower)",
+    CurrentValue = false,
+    Flag = "LoopToggle",
+    Callback = function(Value)
+        LoopEnabled = Value
+
+        if Value then
+            task.spawn(function()
+                while LoopEnabled do
+local args = {
+    [1] = "AutoclickPower"
+}
+
+game:GetService("ReplicatedStorage").Remotes.PurchaseClickUpgrade:InvokeServer(unpack(args))
+                    task.wait(0)
+                end
+            end)
+        end
+    end,
+})
+
+local LoopEnabled = false
+
+MainTab:CreateToggle({
+    Name = "Auto Upgarde (Rebrith)",
+    CurrentValue = false,
+    Flag = "LoopToggle",
+    Callback = function(Value)
+        LoopEnabled = Value
+
+        if Value then
+            task.spawn(function()
+                while LoopEnabled do
+local args = {
+    [1] = "Rebirth"
+}
+
+game:GetService("ReplicatedStorage").Remotes.PurchaseClickUpgrade:InvokeServer(unpack(args))
+                    task.wait(0)
+                end
+            end)
+        end
+    end,
+})
+
+MainTab:CreateToggle({
+    Name = "Auto Beat Obby",
+    CurrentValue = false,
+    Flag = "AutoTween",
+    Callback = function(Value)
+        TweenEnabled = Value
+
+        if Value then
+            task.spawn(function()
+                while TweenEnabled do
+                    TweenTo(Vector3.new(230, 304, -215), 150)
+                    task.wait(2) -- Small delay before repeating
+                end
+            end)
+        else
+            if CurrentTween then
+                CurrentTween:Cancel()
+                CurrentTween = nil
+            end
+        end
+    end,
+})
+--Settings Tab
+SettingsTab:CreateButton({
+   Name = "Rejoin",
+   Callback = function()
+game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,game.JobId)
+   end,
+})
+
+SettingsTab:CreateButton({
+    Name = "Destroy UI",
+    Callback = function()
+        Rayfield:Destroy()
+    end
+})
+
+Rayfield:Notify({
+    Title = "MOUSED hub",
+    Content = "If your seeing this, i hope you have a good day.",
+    Duration = 3,
+    Image = nil
+})
